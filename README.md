@@ -10,9 +10,7 @@
 | 4 | Nupp (taktvõti) | 1 | Hetkeline kontakt | 5 V loogikaga ühilduv | Taustvalguse juhtimine, kuvarežiimi vahetamine või mõõtmise käivitamine |
 
 ## Toide
-
-- Püsivaks kasutamiseks: USB-toide (5 V) või võrguadapter 9–12 V, 2,1 mm tünnipistikuga.
-- Akutoitel: 9 V patarei sobib ainult lühikeseks demoks; pikemaks tööks on parem power bank või 18650-akude komplekt.
+- Arduino toide?
 - LCD ja DHT22 saavad toite Arduino 5 V viigust.
 
 Kogu ristvara ülikoolis olemas
