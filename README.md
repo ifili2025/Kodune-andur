@@ -38,7 +38,7 @@ Sama nupp sisaldab LED-valgusdioodi. Kui mõõdetud temperatuur on alla 22 °C, 
 | 8 | LED-i automaatselt väljalülitamine | Kui temperatuur tõuseb vähemalt 22 °C-ni või sellest kõrgemaks, peab nupus olev LED kustuma. |
 | 9 | Kaitsekorpuse paigaldamine | Elektronika ja ekraan peavad paiknema 3D-printeriga trükitud korpuses, mis kaitseb neid mehaaniliste kahjustuste eest. |
 | 10 | Kasutatavus | Seade peab olema lihtne kasutada: kasutaja peab saama väärtusi vaadata ja kuvarežiimi vahetada ühe nupuga. |
-| 11 | Stabiilne töö | Seade peab töötama stabiilselt 5 V toitel ning DHT22 andurit ei tohi lugeda sagedamini kui kord kahe sekundi jooksul. |
+| 11 | Stabiilne töö | Seade peab töötama stabiilselt 5 V toitel ning DHT22 andurit ei tohi lugeda sagedamini kui kord 5 minuti jooksul. |
 | 12 | Nupu ja LED-i töökindlus | Nupp peab olema ühendatud Arduino digitaalsisendisse koos sisemise pull-up takistiga ning LED peab olema kaitstud sobiva eeltakistiga. |
 
 Kogu ristvara ülikoolis olemas
