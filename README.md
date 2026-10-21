@@ -22,6 +22,7 @@ Sama nupp sisaldab LED-valgusdioodi. Kui mõõdetud temperatuur on alla 22 °C, 
 ## Toide
 - Arduino toide?
 - LCD ja DHT22 saavad toite Arduino 5 V viigust.
+- Kogu ristvara ülikoolis olemas
 
   
 ## Nõuded loodavale seadmele
@@ -40,5 +41,3 @@ Sama nupp sisaldab LED-valgusdioodi. Kui mõõdetud temperatuur on alla 22 °C, 
 | 10 | Kasutatavus | Seade peab olema lihtne kasutada: kasutaja peab saama väärtusi vaadata ja kuvarežiimi vahetada ühe nupuga. |
 | 11 | Stabiilne töö | Seade peab töötama stabiilselt 5 V toitel ning DHT22 andurit ei tohi lugeda sagedamini kui kord 5 minuti jooksul. |
 | 12 | Nupu ja LED-i töökindlus | Nupp peab olema ühendatud Arduino digitaalsisendisse koos sisemise pull-up takistiga ning LED peab olema kaitstud sobiva eeltakistiga. |
-
-Kogu ristvara ülikoolis olemas
