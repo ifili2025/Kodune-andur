@@ -42,4 +42,4 @@ Sama nupp sisaldab LED-valgusdioodi. Kui mõõdetud temperatuur on alla 22 °C, 
 | 11 | Stabiilne töö | Seade peab töötama stabiilselt 5 V toitel ning DHT22 andurit ei tohi lugeda sagedamini kui kord 5 minuti jooksul. |
 | 12 | Nupu ja LED-i töökindlus | Nupp peab olema ühendatud Arduino digitaalsisendisse koos sisemise pull-up takistiga ning LED peab olema kaitstud sobiva eeltakistiga. |
 
-https://www.tinkercad.com/things/b6j5CdlhvuZ-copy-of-nupu-naide/editel?returnTo=%2Fdashboard%2Fdesigns%2Fcircuits
+https://www.tinkercad.com/things/b6j5CdlhvuZ-andur
