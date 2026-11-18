@@ -19,7 +19,8 @@ Sama nupp sisaldab LED-valgusdioodi. Kui mõõdetud temperatuur on alla 22 °C, 
 | 3 | DHT22 / AM2302 andur | 1 | Digitaalne temperatuuri- ja õhuniiskuseandur | 3,3–5,5 V DC | Mõõdab temperatuuri ja suhtelist õhuniiskust |
 | 4 | LED-iga nupp (taktvõti) | 1 | Hetkeline kontakt, sisseehitatud LED | 5 V loogikaga ühilduv | Kuvarežiimi vahetamine; LED annab madala temperatuuri hoiatuse |
 | 5 | Takisti 220 Ω | 1 | LED-i eeltakisti | – | Piirab LED-i voolu |
-| 6 | Arendusplaat ja ühendusjuhtmed | – | – | – | Prototüübi ühendamine |
+| 6 | Takisti 220 Ω | 1 | Taustvalguse eeltakisti | – | Piirab LCD taustvalguse voolu D9 viigust |
+| 7 | Arendusplaat ja ühendusjuhtmed | – | – | – | Prototüübi ühendamine |
 
 Kogu riistvara on ülikoolis olemas.
 
@@ -40,10 +41,13 @@ Kogu riistvara on ülikoolis olemas.
 | LCD (I2C) | GND | GND |
 | LCD (I2C) | SDA | A4 |
 | LCD (I2C) | SCL | A5 |
+| LCD (I2C) | LED-džämperi taustvalguse poolne viik (džämper eemaldatud) | D9 (PWM) läbi 220 Ω takisti |
 | Nupp | kontakt 1 | D2 (sisemine pull-up) |
 | Nupp | kontakt 2 | GND |
 | Nupu LED | anood (+) | D8 → 220 Ω takisti |
 | Nupu LED | katood (−) | GND |
+
+**Taustvalguse heleduse juhtimine:** I2C-adapter oskab taustvalgust ainult sisse ja välja lülitada. Heleduse muutmiseks eemaldatakse adapteri LED-džämper ja taustvalguse poolne viik ühendatakse 220 Ω takisti kaudu Arduino PWM-viiguga D9 (takisti piirab viigu voolu ka siis, kui juhe satub kogemata VCC-jalale). Taustvalguse poolne viik on see, millel **ei ole** multimeetriga mõõtes ühendust adapteri VCC-viiguga.
 
 Skeem on ka [Tinkercadis](https://www.tinkercad.com/things/b6j5CdlhvuZ-andur?sharecode=VAT-XcqrCM38mbUm0xEQI5R4AGCoupYCzonJ24NrogU).
 
@@ -63,6 +67,7 @@ Skeem on ka [Tinkercadis](https://www.tinkercad.com/things/b6j5CdlhvuZ-andur?sha
 | 10 | Kasutatavus | Seade peab olema lihtne kasutada: kasutaja peab saama väärtusi vaadata ja kuvarežiimi vahetada ühe nupuga. |
 | 11 | Stabiilne töö | Seade peab töötama stabiilselt 5 V toitel ning DHT22 andurit ei tohi lugeda sagedamini kui kord 5 minuti jooksul. |
 | 12 | Nupu ja LED-i töökindlus | Nupp peab olema ühendatud Arduino digitaalsisendisse koos sisemise pull-up takistiga ning LED peab olema kaitstud sobiva eeltakistiga. |
+| 13 | Energiasääst | LCD taustvalgus põleb tavaliselt 20 % heledusega. Nupuvajutusel läheb see 30 sekundiks 100 % peale ja hämardub seejärel uuesti. |
 
 ## Tarkvara
 
@@ -88,6 +93,7 @@ Paigalda Arduino IDE-s (*Tools → Manage Libraries*):
 
 - Andurit loetakse iga 5 minuti järel. Kui lugemine ebaõnnestub, proovitakse 5 sekundi pärast uuesti.
 - Anduri vea korral kuvatakse ekraanil „Anduri viga“ ja nupu LED vilgub.
+- LCD taustvalgus põleb tavaliselt 20 % heledusega (`BL_DIM`). Nupuvajutusel läheb see 30 sekundiks 100 % peale (`BL_FULL`, `BL_TIMEOUT`).
 
 ### Temperatuurilogi (EEPROM)
 

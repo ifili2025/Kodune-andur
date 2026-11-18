@@ -7,6 +7,7 @@
 const int PIN_BTN = 2;  // nupp -> GND
 const int PIN_LED = 8;  // D8 -> 220 Ω takisti -> LED -> GND
 const int PIN_DHT = A0; // DHT22 andmepin (DATA)
+const int PIN_BL = 9;   // LCD taustvalgus (PWM) -> I2C-adapteri LED-džämperi viik
 
 #define DHTTYPE DHT22
 DHT dht(PIN_DHT, DHTTYPE);
@@ -23,6 +24,12 @@ const unsigned long HUM_TIMEOUT =
     30000UL; // niiskuse kuvamise aeg enne tagasipöördumist
 const unsigned long DEBOUNCE_MS = 50UL; // nupu põrke filtreerimine
 const unsigned long BLINK_MS = 300UL; // LED-i vilkumise intervall veaolukorras
+
+// ===== TAUSTVALGUS =====
+const byte BL_DIM = 51;   // tavaline heledus: 20 % (51 / 255)
+const byte BL_FULL = 255; // heledus pärast nupuvajutust: 100 %
+const unsigned long BL_TIMEOUT =
+    30000UL; // kui kaua on taustvalgus pärast vajutust täisheledusel
 
 // ===== LOGI =====
 const int LOG_SLOTS = 512;     // logi kohtade arv (1024 baiti / 2) ≈ 42 h
@@ -43,6 +50,8 @@ unsigned long lastBtnChange = 0; // nupu viimase muutuse aeg
 unsigned long lastBlink = 0;     // LED-i viimase vilkumise aeg
 bool lastBtnState = HIGH;        // nupu eelmine olek
 bool blinkState = false;         // LED-i vilkumise olek
+unsigned long blStart = 0;       // täisheleduse algus
+bool blFull = false;             // kas taustvalgus on täisheledusel
 
 // ================= EEPROM-LOGI =================
 // Loeb ühe logikirje EEPROM-ist
@@ -158,7 +167,9 @@ void setup() {
 
   dht.begin();
   lcd.init();
-  lcd.backlight();
+  lcd.backlight(); // adapteri taustvalguse lüliti jääb sisse, heledust juhib PIN_BL
+  pinMode(PIN_BL, OUTPUT);
+  analogWrite(PIN_BL, BL_DIM);
 
   findHead();  // leia koht logis
   delay(2000); // DHT22 vajab pärast sisselülitamist aega
@@ -189,7 +200,18 @@ void loop() {
       if (showHumidity)
         humStart = now;
       updateDisplay();
+
+      // taustvalgus täisheledusele
+      analogWrite(PIN_BL, BL_FULL);
+      blFull = true;
+      blStart = now;
     }
+  }
+
+  // taustvalgus tagasi 20 % peale, kui nuppu pole 30 s vajutatud
+  if (blFull && (now - blStart >= BL_TIMEOUT)) {
+    blFull = false;
+    analogWrite(PIN_BL, BL_DIM);
   }
 
   // automaatne tagasipöördumine temperatuuri vaatele 30 s pärast
