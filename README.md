@@ -51,7 +51,7 @@ Kogu riistvara on ülikoolis olemas.
 
 **Taustvalguse heleduse juhtimine:** I2C-adapter oskab taustvalgust ainult sisse ja välja lülitada. Heleduse muutmiseks eemaldatakse adapteri LED-džämper ja taustvalguse poolne viik ühendatakse 100 Ω takisti kaudu Arduino PWM-viiguga D9 (takisti piirab taustvalguse voolu). Taustvalguse poolne viik on see, millel **ei ole** multimeetriga mõõtes ühendust adapteri VCC-viiguga.
 
-Skeem on ka [Tinkercadis](https://www.tinkercad.com/things/b6j5CdlhvuZ-andur?sharecode=VAT-XcqrCM38mbUm0xEQI5R4AGCoupYCzonJ24NrogU).
+Skeem on ka [Tinkercadis](https://www.tinkercad.com/things/affIwpVuttm).
 
 ## Nõuded loodavale seadmele
 
