@@ -47,6 +47,8 @@ Kogu riistvara on ülikoolis olemas.
 | Nupu LED | anood (+) | D8 → 220 Ω takisti |
 | Nupu LED | katood (−) | GND |
 
+**DHT22 andmeliin:** välist 10 kΩ pull-up takistit ei kasutata. DHT-teek lülitab sisse Arduino sisemise pull-up takisti, mis lühikeste juhtmete korral piisab. Kui ekraanile ilmub sageli „Anduri viga“ või juhe on pikk (üle ~20 cm), lisa 10 kΩ takisti DATA ja 5V vahele.
+
 **Taustvalguse heleduse juhtimine:** I2C-adapter oskab taustvalgust ainult sisse ja välja lülitada. Heleduse muutmiseks eemaldatakse adapteri LED-džämper ja taustvalguse poolne viik ühendatakse 100 Ω takisti kaudu Arduino PWM-viiguga D9 (takisti piirab taustvalguse voolu). Taustvalguse poolne viik on see, millel **ei ole** multimeetriga mõõtes ühendust adapteri VCC-viiguga.
 
 Skeem on ka [Tinkercadis](https://www.tinkercad.com/things/b6j5CdlhvuZ-andur?sharecode=VAT-XcqrCM38mbUm0xEQI5R4AGCoupYCzonJ24NrogU).
