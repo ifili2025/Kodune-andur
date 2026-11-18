@@ -30,6 +30,8 @@ Kogu riistvara on ülikoolis olemas.
 - Koodi üleslaadimise ja logi lugemise ajal saab toite ka USB-kaabli kaudu.
 - LCD ja DHT22 saavad toite Arduino 5 V viigust.
 
+**Patarei kestvus (hinnanguline):** seade tarbib umbes 55–65 mA, millest suurema osa kulutab Arduino Uno plaat ise. Tavalise 9 V patarei (~500 mAh) kestvus on seega umbes **8–9 tundi**. Kui patarei pinge langeb alla ~7 V, ei suuda Arduino regulaator enam stabiilset 5 V anda – LCD võib tuhmuda või andur hakata viga andma juba enne, kui patarei on täiesti tühi. Pikemaajaliseks kasutamiseks sobib USB-toide või akupank.
+
 ## Ühendused
 
 | Komponent | Komponendi viik | Arduino viik |
@@ -47,11 +49,11 @@ Kogu riistvara on ülikoolis olemas.
 | Nupu LED | anood (+) | D8 → 220 Ω takisti |
 | Nupu LED | katood (−) | GND |
 
-**DHT22 andmeliin:** välist 10 kΩ pull-up takistit ei kasutata. DHT-teek lülitab sisse Arduino sisemise pull-up takisti, mis lühikeste juhtmete korral piisab. Kui ekraanile ilmub sageli „Anduri viga“ või juhe on pikk (üle ~20 cm), lisa 10 kΩ takisti DATA ja 5V vahele.
+**DHT22 andmeliin:** välist 10 kΩ pull-up takistit ei kasutata. DHT-teek lülitab sisse Arduino sisemise pull-up takisti, millest lühikeste juhtmete korral piisab. Kui ekraanile ilmub sageli „Anduri viga“ või juhe on pikk (üle ~20 cm), lisa 10 kΩ takisti DATA ja 5V vahele.
 
 **Taustvalguse heleduse juhtimine:** I2C-adapter oskab taustvalgust ainult sisse ja välja lülitada. Heleduse muutmiseks eemaldatakse adapteri LED-džämper ja taustvalguse poolne viik ühendatakse 100 Ω takisti kaudu Arduino PWM-viiguga D9 (takisti piirab taustvalguse voolu). Taustvalguse poolne viik on see, millel **ei ole** multimeetriga mõõtes ühendust adapteri VCC-viiguga.
 
-Skeem on ka [Tinkercadis](https://www.tinkercad.com/things/affIwpVuttm).
+Skeem on ka [Tinkercadis](https://www.tinkercad.com/things/affIwpVuttm). Tinkercadi skeem näitab ühendusi; Tinkercadis pole DHT22 andurit, seetõttu on seal selle asemel TMP-temperatuuriandur ja simulatsioon projekti koodiga ei tööta.
 
 ## Nõuded loodavale seadmele
 
@@ -67,7 +69,7 @@ Skeem on ka [Tinkercadis](https://www.tinkercad.com/things/affIwpVuttm).
 | 8 | LED-i automaatselt väljalülitamine | Kui temperatuur tõuseb vähemalt 22 °C-ni või sellest kõrgemaks, peab nupus olev LED kustuma. |
 | 9 | Kaitsekorpuse paigaldamine | Elektroonika ja ekraan peavad paiknema 3D-printeriga trükitud korpuses, mis kaitseb neid mehaaniliste kahjustuste eest. |
 | 10 | Kasutatavus | Seade peab olema lihtne kasutada: kasutaja peab saama väärtusi vaadata ja kuvarežiimi vahetada ühe nupuga. |
-| 11 | Stabiilne töö | Seade peab töötama stabiilselt 5 V toitel ning DHT22 andurit ei tohi lugeda sagedamini kui kord 5 minuti jooksul. |
+| 11 | Stabiilne töö | Seade peab töötama stabiilselt 9 V patareitoitel (Arduino regulaator annab 5 V). Normaalse töö ajal loetakse DHT22 andurit kord 5 minuti jooksul; lugemisvea korral proovitakse uuesti 5 sekundi pärast. |
 | 12 | Nupu ja LED-i töökindlus | Nupp peab olema ühendatud Arduino digitaalsisendisse koos sisemise pull-up takistiga ning LED peab olema kaitstud sobiva eeltakistiga. |
 | 13 | Energiasääst | LCD taustvalgus põleb tavaliselt 20 % heledusega. Nupuvajutusel läheb see 30 sekundiks 100 % peale ja hämardub seejärel uuesti. |
 
