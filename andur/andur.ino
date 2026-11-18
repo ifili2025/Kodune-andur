@@ -16,17 +16,19 @@ LiquidCrystal_I2C lcd(0x27, 16, 2); // kui ekraan on tühi, proovi 0x3F
 const float T_LIMIT = 22.0; // temperatuuri piir (°C)
 
 const unsigned long READ_INTERVAL =
-    5000UL; // mõõtmise intervall; lõppversioonis: 300000UL
+    300000UL; // mõõtmise intervall: 5 min (nõue 11)
+const unsigned long RETRY_INTERVAL =
+    5000UL; // anduri vea korral proovi uuesti 5 s pärast
 const unsigned long HUM_TIMEOUT =
     30000UL; // niiskuse kuvamise aeg enne tagasipöördumist
 const unsigned long DEBOUNCE_MS = 50UL; // nupu põrke filtreerimine
 const unsigned long BLINK_MS = 300UL; // LED-i vilkumise intervall veaolukorras
 
 // ===== LOGI =====
-const int LOG_SLOTS = 512;     // logi kohtade arv (1024 baiti / 2)
+const int LOG_SLOTS = 512;     // logi kohtade arv (1024 baiti / 2) ≈ 42 h
 const uint16_t EMPTY = 0xFFFF; // tühja koha tähis
 const byte LOG_EVERY =
-    1;               // salvesta iga N-s mõõtmine; lõppversioonis võib olla 3
+    1;               // salvesta iga N-s mõõtmine (1 = iga 5 min järel)
 int logHead = 0;     // järgmise kirje asukoht
 byte logCounter = 0; // mõõtmiste loendur logimiseks
 
@@ -76,7 +78,7 @@ void logTemp(float t) {
 
 // Väljastab logi Serial Monitori (vanimast uusimani)
 void dumpLog() {
-  Serial.println(F("sek_nazad,temp_C"));
+  Serial.println(F("sek_tagasi,temp_C"));
   unsigned long step =
       READ_INTERVAL / 1000 * LOG_EVERY; // sekundeid kirjete vahel
   for (int k = 1; k < LOG_SLOTS; k++) {
@@ -88,15 +90,15 @@ void dumpLog() {
     Serial.print(",");
     Serial.println(v / 10.0 - 40.0, 1);
   }
-  Serial.println(F("--- konec ---"));
+  Serial.println(F("--- lopp ---"));
 }
 
 // Kustutab kogu logi
 void clearLog() {
-  for (int i = 0; i < 1024; i++)
+  for (unsigned int i = 0; i < EEPROM.length(); i++)
     EEPROM.update(i, 0xFF);
   logHead = 0;
-  Serial.println(F("log ochishchen"));
+  Serial.println(F("logi kustutatud"));
 }
 
 // ================= ANDUR JA EKRAAN =================
@@ -196,8 +198,9 @@ void loop() {
     updateDisplay();
   }
 
-  // perioodiline mõõtmine
-  if (now - lastRead >= READ_INTERVAL) {
+  // perioodiline mõõtmine (vea korral proovitakse kiiremini uuesti)
+  unsigned long interval = sensorOk ? READ_INTERVAL : RETRY_INTERVAL;
+  if (now - lastRead >= interval) {
     lastRead = now;
     readSensors();
     updateDisplay();
